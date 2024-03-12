@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,6 +22,17 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const[
+        AppLocalizations.delegate, 
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', '01'),
+        Locale('fa', '98'),
+      ],
+      locale: const Locale('fa'),
       theme: themeMode == ThemeMode.dark
           ? MyAppThemeConfig.dark().getTheme()
           : MyAppThemeConfig.light().getTheme(),
@@ -59,9 +72,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final  localization = AppLocalizations.of(context)!;
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Profile Demo'),
+          title: Text(localization.profileDemo),
           actions: [
             const Padding(
               padding: EdgeInsets.fromLTRB(0, 0, 8, 0),
@@ -96,11 +110,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Arvin Veysi',
+                          localization.name,
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
                         Text(
-                          'Programming and Teacher',
+                          localization.shortDescription,
                           style: Theme.of(context).textTheme.bodySmall,
                         ),
                         const SizedBox(
@@ -116,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               width: 3,
                             ),
                             Text(
-                              'Iran, Abyek',
+                              localization.locale,
                               style: Theme.of(context).textTheme.bodyMedium,
                             ),
                           ],
@@ -137,17 +151,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   Text(
                       style: Theme.of(context).textTheme.bodyMedium,
-                      'Lorem ipsum dolor sit amet, consectetur \n adipiscing  elit, sed do eiusmod tempor \n incididunt ut labore et dolore magna aliqua. Ut \n enim ad minim veniam, quis nostrud exercitation \n ullamco  laboris nisi ut aliquip ex ea commodo \n consequat.')
+                      localization.description)
                 ],
               ),
             ),
             const Divider(),
             Padding(
-              padding: const EdgeInsets.only(left: 24, top: 8),
+              padding: const EdgeInsets.only(left: 24, top: 8, right: 24),
               child: Row(
                 children: [
                   Text(
-                    'Skills',
+                    localization.skills,
                     style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(
@@ -226,30 +240,27 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Text(
-                      'Personal Information',
-                      style: Theme.of(context).textTheme.titleSmall,
-                    ),
+                  Text(
+                    localization.personalInformation,
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                   const SizedBox(
                     height: 12,
                   ),
-                  const TextField(
+                  TextField(
                     decoration: InputDecoration(
-                      labelText: 'Email',
-                      prefixIcon: Icon(CupertinoIcons.at),
+                      labelText: localization.email,
+                      prefixIcon: const Icon(CupertinoIcons.at),
                       hintMaxLines: 15,
                     ),
                   ),
                   const SizedBox(
                     height: 12,
                   ),
-                  const TextField(
+                  TextField(
                     decoration: InputDecoration(
-                      labelText: 'Password',
-                      prefixIcon: Icon(CupertinoIcons.lock),
+                      labelText: localization.password,
+                      prefixIcon: const Icon(CupertinoIcons.lock),
                       hintMaxLines: 15,
                     ),
                   ),
@@ -260,7 +271,11 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 40,
                       width: double.infinity,
                       child: ElevatedButton(
-                          onPressed: () {}, child: Text('Save', style: TextStyle(fontSize: 16, color: Colors.white),))),
+                          onPressed: () {},
+                          child: Text(
+                            localization.save,
+                            style: const TextStyle(fontSize: 16, color: Colors.white),
+                          ))),
                   const SizedBox(
                     height: 16,
                   )
@@ -330,7 +345,8 @@ class MyAppThemeConfig {
           filled: true,
           fillColor: Colors.white10,
         ),
-        appBarTheme: AppBarTheme(backgroundColor: appbarColor, foregroundColor: primaryTextColor),
+        appBarTheme: AppBarTheme(
+            backgroundColor: appbarColor, foregroundColor: primaryTextColor),
         textTheme: GoogleFonts.latoTextTheme(TextTheme(
             bodyMedium: TextStyle(fontSize: 12, color: primaryTextColor),
             bodyLarge: TextStyle(fontSize: 15, color: seconderyTextColor),
