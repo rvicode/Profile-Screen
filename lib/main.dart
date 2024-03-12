@@ -22,8 +22,8 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      localizationsDelegates: const[
-        AppLocalizations.delegate, 
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
@@ -34,8 +34,8 @@ class _MyAppState extends State<MyApp> {
       ],
       locale: const Locale('fa'),
       theme: themeMode == ThemeMode.dark
-          ? MyAppThemeConfig.dark().getTheme()
-          : MyAppThemeConfig.light().getTheme(),
+          ? MyAppThemeConfig.dark().getTheme('fa')
+          : MyAppThemeConfig.light().getTheme('fa'),
       home: MyHomePage(
         toggleThemeMode: () {
           setState(() {
@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final  localization = AppLocalizations.of(context)!;
+    final localization = AppLocalizations.of(context)!;
     return Scaffold(
         appBar: AppBar(
           title: Text(localization.profileDemo),
@@ -274,7 +274,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           onPressed: () {},
                           child: Text(
                             localization.save,
-                            style: const TextStyle(fontSize: 16, color: Colors.white),
+                            style: const TextStyle(
+                                fontSize: 16, color: Colors.white),
                           ))),
                   const SizedBox(
                     height: 16,
@@ -288,6 +289,7 @@ class _MyHomePageState extends State<MyHomePage> {
 }
 
 class MyAppThemeConfig {
+  static const String faPrimaryFontFamily = 'IranYekan';
   final Color primaryColor = Colors.pink.shade300;
   final Color primaryTextColor;
   final Color seconderyTextColor;
@@ -312,7 +314,7 @@ class MyAppThemeConfig {
         appbarColor = const Color.fromARGB(255, 235, 235, 235),
         brightness = Brightness.light;
 
-  ThemeData getTheme() {
+  ThemeData getTheme(String languageCode) {
     return ThemeData(
         // This is the theme of your application.
         //
@@ -347,16 +349,35 @@ class MyAppThemeConfig {
         ),
         appBarTheme: AppBarTheme(
             backgroundColor: appbarColor, foregroundColor: primaryTextColor),
-        textTheme: GoogleFonts.latoTextTheme(TextTheme(
-            bodyMedium: TextStyle(fontSize: 12, color: primaryTextColor),
-            bodyLarge: TextStyle(fontSize: 15, color: seconderyTextColor),
-            titleLarge:
-                TextStyle(fontWeight: FontWeight.bold, color: primaryTextColor),
-            titleSmall: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                color: primaryTextColor))));
+        textTheme:
+            languageCode == 'fa' ? faPrimaryTextTheme : enPrimaryTextTheme);
   }
+
+  TextTheme get enPrimaryTextTheme => GoogleFonts.latoTextTheme(TextTheme(
+      bodyMedium: TextStyle(fontSize: 12, color: primaryTextColor),
+      bodyLarge: TextStyle(fontSize: 15, color: seconderyTextColor),
+      titleLarge:
+          TextStyle(fontWeight: FontWeight.bold, color: primaryTextColor),
+      titleSmall: TextStyle(
+          fontSize: 16, fontWeight: FontWeight.bold, color: primaryTextColor)));
+  TextTheme get faPrimaryTextTheme => TextTheme(
+      bodyMedium: TextStyle(
+          fontSize: 12,
+          color: primaryTextColor,
+          fontFamily: faPrimaryFontFamily),
+      bodyLarge: TextStyle(
+          fontSize: 15,
+          color: seconderyTextColor,
+          fontFamily: faPrimaryFontFamily),
+      titleLarge: TextStyle(
+          fontWeight: FontWeight.bold,
+          color: primaryTextColor,
+          fontFamily: faPrimaryFontFamily),
+      titleSmall: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.bold,
+          color: primaryTextColor,
+          fontFamily: faPrimaryFontFamily));
 }
 
 class Skills extends StatelessWidget {
