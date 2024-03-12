@@ -1,0 +1,12 @@
+{
+    "profileDemo": "Profile Demo",
+    "name": "Arvin Veysi",
+    "shortDescription": "Programming & Designer",
+    "locale": "Iran, Qazvin",
+    "description": "Lorem ipsum dolor sit amet, consectetur \n adipiscing  elit, sed do eiusmod tempor \n incididunt ut labore et dolore magna aliqua. Ut \n enim ad minim veniam, quis nostrud exercitation \n ullamco  laboris nisi ut aliquip ex ea commodo \n consequat.",
+    "skills": "Skills",
+    "personalInformation": "Personale Information",
+    "email": "email",
+    "password": "password",
+    "save": "Save"
+}
