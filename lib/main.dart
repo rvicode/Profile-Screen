@@ -17,6 +17,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   ThemeMode themeMode = ThemeMode.dark;
+  Locale _locale = const Locale('en');
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +33,10 @@ class _MyAppState extends State<MyApp> {
         Locale('en', '01'),
         Locale('fa', '98'),
       ],
-      locale: const Locale('fa'),
+      locale: _locale,
       theme: themeMode == ThemeMode.dark
-          ? MyAppThemeConfig.dark().getTheme('fa')
-          : MyAppThemeConfig.light().getTheme('fa'),
+          ? MyAppThemeConfig.dark().getTheme(_locale.languageCode)
+          : MyAppThemeConfig.light().getTheme(_locale.languageCode),
       home: MyHomePage(
         toggleThemeMode: () {
           setState(() {
@@ -46,6 +47,13 @@ class _MyAppState extends State<MyApp> {
             }
           });
         },
+        selectedLanguageChanged: (_Language newSelectedLanguageFromUser) {
+          setState(() {
+            _locale = newSelectedLanguageFromUser == _Language.en
+                ? const Locale('en')
+                : const Locale('fa');
+          });
+        },
       ),
     );
   }
@@ -53,20 +61,34 @@ class _MyAppState extends State<MyApp> {
 
 class MyHomePage extends StatefulWidget {
   final Function() toggleThemeMode;
-
-  const MyHomePage({super.key, required this.toggleThemeMode});
+  final Function(_Language _language) selectedLanguageChanged;
+  const MyHomePage(
+      {super.key,
+      required this.toggleThemeMode,
+      required this.selectedLanguageChanged});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-enum SkillType { photoShop, adobeXd, illustrator, afterEffect, lightRoom }
+enum _SkillType { photoShop, adobeXd, illustrator, afterEffect, lightRoom }
+
+enum _Language { fa, en }
 
 class _MyHomePageState extends State<MyHomePage> {
-  SkillType _skill = SkillType.photoShop;
-  void updateSelectedSkill(SkillType skillType) {
+  _SkillType _skill = _SkillType.photoShop;
+  _Language _language = _Language.en;
+
+  void updateSelectedSkill(_SkillType skillType) {
     setState(() {
       _skill = skillType;
+    });
+  }
+
+  void updateSelectedLanguage(_Language language) {
+    widget.selectedLanguageChanged(language);
+    setState(() {
+      _language = language;
     });
   }
 
@@ -157,6 +179,35 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             const Divider(),
             Padding(
+              padding: const EdgeInsets.fromLTRB(23, 16, 23, 16),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    localization.languages,
+                    style: const TextStyle(
+                        fontWeight: FontWeight.bold, fontSize: 14),
+                  ),
+                  const SizedBox(
+                    height: 16,
+                  ),
+                  const SizedBox(width: 16),
+                  CupertinoSlidingSegmentedControl<_Language>(
+                    groupValue: _language,
+                    thumbColor: Theme.of(context).primaryColor,
+                    children: {
+                      _Language.en: Text(localization.en),
+                      _Language.fa: Text(localization.fa)
+                    },
+                    onValueChanged: (value) {
+                      if (value != null) updateSelectedLanguage(value);
+                    },
+                  )
+                ],
+              ),
+            ),
+            const Divider(),
+            Padding(
               padding: const EdgeInsets.only(left: 24, top: 8, right: 24),
               child: Row(
                 children: [
@@ -182,53 +233,53 @@ class _MyHomePageState extends State<MyHomePage> {
                 direction: Axis.horizontal,
                 children: [
                   Skills(
-                    type: SkillType.photoShop,
+                    type: _SkillType.photoShop,
                     title: 'Photoshop',
                     imagePath: 'assets/images/app_icon_01.png',
                     colorShadow: Colors.blue,
-                    isActive: _skill == SkillType.photoShop,
+                    isActive: _skill == _SkillType.photoShop,
                     onTap: () {
-                      updateSelectedSkill(SkillType.photoShop);
+                      updateSelectedSkill(_SkillType.photoShop);
                     },
                   ),
                   Skills(
-                    type: SkillType.adobeXd,
+                    type: _SkillType.adobeXd,
                     title: 'Adobe XD',
                     imagePath: 'assets/images/app_icon_05.png',
                     colorShadow: Colors.pink.shade400,
-                    isActive: _skill == SkillType.adobeXd,
+                    isActive: _skill == _SkillType.adobeXd,
                     onTap: () {
-                      updateSelectedSkill(SkillType.adobeXd);
+                      updateSelectedSkill(_SkillType.adobeXd);
                     },
                   ),
                   Skills(
-                    type: SkillType.illustrator,
+                    type: _SkillType.illustrator,
                     title: 'illustrator',
                     imagePath: 'assets/images/app_icon_04.png',
                     colorShadow: Colors.yellow.shade900,
-                    isActive: _skill == SkillType.illustrator,
+                    isActive: _skill == _SkillType.illustrator,
                     onTap: () {
-                      updateSelectedSkill(SkillType.illustrator);
+                      updateSelectedSkill(_SkillType.illustrator);
                     },
                   ),
                   Skills(
-                    type: SkillType.afterEffect,
+                    type: _SkillType.afterEffect,
                     title: 'After Effect',
                     imagePath: 'assets/images/app_icon_03.png',
                     colorShadow: Colors.blue.shade800,
-                    isActive: _skill == SkillType.afterEffect,
+                    isActive: _skill == _SkillType.afterEffect,
                     onTap: () {
-                      updateSelectedSkill(SkillType.afterEffect);
+                      updateSelectedSkill(_SkillType.afterEffect);
                     },
                   ),
                   Skills(
-                    type: SkillType.lightRoom,
+                    type: _SkillType.lightRoom,
                     title: 'Lightroom',
                     imagePath: 'assets/images/app_icon_02.png',
                     colorShadow: Colors.blue,
-                    isActive: _skill == SkillType.lightRoom,
+                    isActive: _skill == _SkillType.lightRoom,
                     onTap: () {
-                      updateSelectedSkill(SkillType.lightRoom);
+                      updateSelectedSkill(_SkillType.lightRoom);
                     },
                   ),
                 ],
@@ -316,21 +367,6 @@ class MyAppThemeConfig {
 
   ThemeData getTheme(String languageCode) {
     return ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         scaffoldBackgroundColor: backgroundColor,
         brightness: brightness,
         useMaterial3: true,
@@ -381,7 +417,7 @@ class MyAppThemeConfig {
 }
 
 class Skills extends StatelessWidget {
-  final SkillType type;
+  final _SkillType type;
   final String title;
   final String imagePath;
   final Color colorShadow;
