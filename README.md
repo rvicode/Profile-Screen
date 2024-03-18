@@ -1,16 +1,9 @@
-# profile_app
+# Profile Page
 
-A new Flutter project.
+-This project is a user profile page that has the ability to change the language from English to Farsi.
 
-## Getting Started
+https://github.com/rvicode/Profile-Screen/assets/99497732/fdb02c56-0674-4b0b-b93c-f2da6d9ae45e
 
-This project is a starting point for a Flutter application.
+<img src="https://github.com/rvicode/Profile-Screen/assets/99497732/ee8f93e2-6150-497c-98ee-b4fcdeaaf1e4" width="250">
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://github.com/rvicode/Profile-Screen/assets/99497732/93cdaa63-ef69-4b0f-9afc-4978a9e7562a" width="250">
